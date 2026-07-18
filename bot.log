@@ -442,3 +442,4 @@ discord.errors.Forbidden: 403 Forbidden (error code: 50013): Missing Permissions
 2026-07-18 18:47:10 | ERROR    | __main__ | Whitelisting channel 1527323483078529074 not found in guild 1509677350802161704
 2026-07-18 18:52:37 | INFO     | database | Created user record for akshita_61 (1122973308841902161)
 2026-07-18 18:52:39 | INFO     | views.application_form | Manual review: accepted 1122973308841902161 by 900048074603380776
+2026-07-18 19:16:12 | INFO     | cogs.whitelist | Assigned 'SMP Applicant' to 1492227446173597827

@@ -14,6 +14,9 @@ Responsibilities:
 from __future__ import annotations
 
 import asyncio
+import os
+import threading
+from flask import Flask
 
 import discord
 from discord.ext import commands
@@ -45,6 +48,20 @@ INITIAL_EXTENSIONS = (
     "cogs.setup",
 )
 
+app = Flask(__name__)
+
+@app.route("/")
+def health_check():
+    return "SMP Bot Running", 200
+
+
+def run_web_server():
+    app.run(
+        host="0.0.0.0",
+        port=int(os.environ.get("PORT", 10000)),
+        debug=False,
+        use_reloader=False,
+    )
 
 class SMPBot(commands.Bot):
     def __init__(self) -> None:
@@ -194,4 +211,9 @@ async def main() -> None:
 
 
 if __name__ == "__main__":
+    threading.Thread(
+        target=run_web_server,
+        daemon=True
+    ).start()
+
     asyncio.run(main())
