@@ -24,6 +24,7 @@ from config import (
     PAYMENT_AMOUNT_INR,
     ZIO_AUDIT_CHANNEL_NAME,
 )
+from utils.channels import resolve_channel_id
 from utils.embeds import audit_log_embed, COLOR_INFO
 from utils.logger import get_logger
 
@@ -110,12 +111,20 @@ class WhitelistCog(commands.Cog):
 
         await self.bot.db.create_whitelisted_user(user.id, str(user))
 
+        # Resolve channels dynamically from DB settings
+        gw_id = await resolve_channel_id(
+            self.bot.db, guild.id, "payment_gateway", PAYMENT_GATEWAY_CHANNEL_ID
+        )
+        pc_id = await resolve_channel_id(
+            self.bot.db, guild.id, "payment_confirmation", PAYMENT_CONFIRMATION_CHANNEL_ID
+        )
+
         try:
             await user.send(
                 "🎉 You have been accepted into the SMP whitelist.\n\n"
                 f"Please complete the ₹{PAYMENT_AMOUNT_INR} payment using the QR code in "
-                f"<#{PAYMENT_GATEWAY_CHANNEL_ID}>.\n\n"
-                f"After payment, upload the screenshot in <#{PAYMENT_CONFIRMATION_CHANNEL_ID}>."
+                f"<#{gw_id}>.\n\n"
+                f"After payment, upload the screenshot in <#{pc_id}>."
             )
         except discord.Forbidden:
             logger.warning("Could not DM whitelisted user %s (DMs closed)", user.id)

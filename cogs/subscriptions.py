@@ -3,7 +3,7 @@ Subscriptions cog.
 
 Handles:
 - /renew admin command: extends a user's subscription by 30 days.
-- A daily APScheduler job that sends expiry reminders (7/3/1 days out) and
+- A daily APScheduler job that sends expiry reminders (3/1 days out) and
   expires subscriptions (removing only the "MINECRAFT" role) once they lapse.
 """
 
@@ -144,9 +144,8 @@ class SubscriptionsCog(commands.Cog):
             return  # Already sent for this threshold.
 
         messages = {
-            7: "⏰ Your SMP subscription expires in 7 days.\nRenew to continue playing.",
-            3: "⏰ Your SMP subscription expires in 3 days.",
-            1: "⏰ Your SMP subscription expires tomorrow.",
+            3: "⏰ Your SMP subscription expires in 3 days.\nRenew to continue playing.",
+            1: "⏰ Your SMP subscription expires tomorrow! Renew now to keep access.",
         }
         message = messages.get(days_remaining)
         if not message:

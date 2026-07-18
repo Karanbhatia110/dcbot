@@ -1,0 +1,444 @@
+2026-07-18 16:38:03 | WARNING  | discord.client | PyNaCl is not installed, voice will NOT be supported
+2026-07-18 16:38:03 | WARNING  | discord.client | davey is not installed, voice will NOT be supported
+2026-07-18 16:39:36 | WARNING  | discord.client | PyNaCl is not installed, voice will NOT be supported
+2026-07-18 16:39:36 | WARNING  | discord.client | davey is not installed, voice will NOT be supported
+2026-07-18 16:41:53 | WARNING  | discord.client | PyNaCl is not installed, voice will NOT be supported
+2026-07-18 16:41:53 | WARNING  | discord.client | davey is not installed, voice will NOT be supported
+2026-07-18 16:41:55 | ERROR    | database | Failed to connect to MongoDB Atlas
+Traceback (most recent call last):
+  File "c:\Users\karan\OneDrive\Documents\dcbot\database.py", line 36, in connect
+    await self.users.create_index("_id", unique=True)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\concurrent\futures\thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "C:\Users\karan\OneDrive\Documents\dcbot\dcbot\Lib\site-packages\pymongo\synchronous\collection.py", line 2391, in create_index
+    return (self._create_indexes([index], session, **cmd_options))[0]
+            ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\karan\OneDrive\Documents\dcbot\dcbot\Lib\site-packages\pymongo\_csot.py", line 125, in csot_wrapper
+    return func(self, *args, **kwargs)
+  File "C:\Users\karan\OneDrive\Documents\dcbot\dcbot\Lib\site-packages\pymongo\synchronous\collection.py", line 2273, in _create_indexes
+    return self.database.client._retryable_write(False, inner, session, _Op.CREATE_INDEXES)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\karan\OneDrive\Documents\dcbot\dcbot\Lib\site-packages\pymongo\synchronous\mongo_client.py", line 2113, in _retryable_write
+    return self._retry_with_session(retryable, func, s, bulk, operation, operation_id)
+           ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\karan\OneDrive\Documents\dcbot\dcbot\Lib\site-packages\pymongo\synchronous\mongo_client.py", line 1986, in _retry_with_session
+    return self._retry_internal(
+           ~~~~~~~~~~~~~~~~~~~~^
+        func=func,
+        ^^^^^^^^^^
+    ...<4 lines>...
+        operation_id=operation_id,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\karan\OneDrive\Documents\dcbot\dcbot\Lib\site-packages\pymongo\_csot.py", line 125, in csot_wrapper
+    return func(self, *args, **kwargs)
+  File "C:\Users\karan\OneDrive\Documents\dcbot\dcbot\Lib\site-packages\pymongo\synchronous\mongo_client.py", line 2038, in _retry_internal
+    ).run()
+      ~~~^^
+  File "C:\Users\karan\OneDrive\Documents\dcbot\dcbot\Lib\site-packages\pymongo\synchronous\mongo_client.py", line 2811, in run
+    res = self._read() if self._is_read else self._write()
+                                             ~~~~~~~~~~~^^
+  File "C:\Users\karan\OneDrive\Documents\dcbot\dcbot\Lib\site-packages\pymongo\synchronous\mongo_client.py", line 3014, in _write
+    return self._func(self._session, conn, self._retryable)  # type: ignore
+           ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\karan\OneDrive\Documents\dcbot\dcbot\Lib\site-packages\pymongo\synchronous\collection.py", line 2263, in inner
+    self._command(
+    ~~~~~~~~~~~~~^
+        conn,
+        ^^^^^
+    ...<4 lines>...
+        session=session,
+        ^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\karan\OneDrive\Documents\dcbot\dcbot\Lib\site-packages\pymongo\synchronous\collection.py", line 615, in _command
+    return conn.command(
+           ~~~~~~~~~~~~^
+        self._database.name,
+        ^^^^^^^^^^^^^^^^^^^^
+    ...<12 lines>...
+        user_fields=user_fields,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\karan\OneDrive\Documents\dcbot\dcbot\Lib\site-packages\pymongo\synchronous\helpers.py", line 53, in inner
+    return func(*args, **kwargs)
+  File "C:\Users\karan\OneDrive\Documents\dcbot\dcbot\Lib\site-packages\pymongo\synchronous\pool.py", line 403, in command
+    return command(
+        self,
+    ...<20 lines>...
+        write_concern=write_concern,
+    )
+  File "C:\Users\karan\OneDrive\Documents\dcbot\dcbot\Lib\site-packages\pymongo\synchronous\network.py", line 212, in command
+    helpers_shared._check_command_response(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        response_doc,
+        ^^^^^^^^^^^^^
+    ...<2 lines>...
+        parse_write_concern_error=parse_write_concern_error,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\karan\OneDrive\Documents\dcbot\dcbot\Lib\site-packages\pymongo\helpers_shared.py", line 284, in _check_command_response
+    raise OperationFailure(errmsg, code, response, max_wire_version)
+pymongo.errors.OperationFailure: The field 'unique' is not valid for an _id index specification. Specification: { unique: true, name: "_id_1", key: { _id: 1 }, v: 2 }, full error: {'ok': 0.0, 'errmsg': 'The field \'unique\' is not valid for an _id index specification. Specification: { unique: true, name: "_id_1", key: { _id: 1 }, v: 2 }', 'code': 197, 'codeName': 'InvalidIndexSpecificationOption', '$clusterTime': {'clusterTime': Timestamp(1784373116, 20), 'signature': {'hash': b'\x91J\xe8\xe7kH\xefK\x0e\xa0\t6-w\x0b\x84\x15g\xc8\xff', 'keyId': 7624616550212829187}}, 'operationTime': Timestamp(1784373116, 20)}
+2026-07-18 16:43:09 | WARNING  | discord.client | PyNaCl is not installed, voice will NOT be supported
+2026-07-18 16:43:09 | WARNING  | discord.client | davey is not installed, voice will NOT be supported
+2026-07-18 16:43:11 | INFO     | database | Connected to MongoDB Atlas (db=smp_bot)
+2026-07-18 16:43:11 | INFO     | __main__ | Loaded extension: cogs.whitelist
+2026-07-18 16:43:11 | INFO     | __main__ | Loaded extension: cogs.payments
+2026-07-18 16:43:11 | INFO     | __main__ | Loaded extension: cogs.audit
+2026-07-18 16:43:11 | INFO     | cogs.subscriptions | Subscription scheduler started (daily at 00:05 UTC)
+2026-07-18 16:43:11 | INFO     | __main__ | Loaded extension: cogs.subscriptions
+2026-07-18 16:43:12 | INFO     | __main__ | Synced 3 application command(s)
+2026-07-18 16:43:17 | INFO     | __main__ | Logged in as ZioBot#8487 (ID: 1208364213995839529)
+2026-07-18 16:43:17 | ERROR    | __main__ | Role 'MINECRAFT ADMIN' not found in guild 473781331113803778 ('Karan's Hangout'). Cannot set channel permissions correctly.
+2026-07-18 16:43:18 | INFO     | __main__ | Created channel #zio-audit in guild 473781331113803778
+2026-07-18 16:43:18 | INFO     | __main__ | Created channel #trial-channel in guild 473781331113803778
+2026-07-18 16:43:18 | ERROR    | __main__ | Role 'MINECRAFT ADMIN' not found in guild 700701341105782850 ('Costin's Official Discord Server'). Cannot set channel permissions correctly.
+2026-07-18 16:43:19 | ERROR    | __main__ | Missing permission to create channel #zio-audit
+Traceback (most recent call last):
+  File "c:\Users\karan\OneDrive\Documents\dcbot\main.py", line 111, in ensure_channels
+    await guild.create_text_channel(
+    ...<4 lines>...
+    )
+  File "C:\Users\karan\OneDrive\Documents\dcbot\dcbot\Lib\site-packages\discord\guild.py", line 1531, in create_text_channel
+    data = await self._create_channel(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\karan\OneDrive\Documents\dcbot\dcbot\Lib\site-packages\discord\http.py", line 772, in request
+    raise Forbidden(response, data)
+discord.errors.Forbidden: 403 Forbidden (error code: 50013): Missing Permissions
+2026-07-18 16:43:19 | ERROR    | __main__ | Missing permission to create channel #trial-channel
+Traceback (most recent call last):
+  File "c:\Users\karan\OneDrive\Documents\dcbot\main.py", line 111, in ensure_channels
+    await guild.create_text_channel(
+    ...<4 lines>...
+    )
+  File "C:\Users\karan\OneDrive\Documents\dcbot\dcbot\Lib\site-packages\discord\guild.py", line 1531, in create_text_channel
+    data = await self._create_channel(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\karan\OneDrive\Documents\dcbot\dcbot\Lib\site-packages\discord\http.py", line 772, in request
+    raise Forbidden(response, data)
+discord.errors.Forbidden: 403 Forbidden (error code: 50013): Missing Permissions
+2026-07-18 16:43:19 | ERROR    | __main__ | Role 'MINECRAFT ADMIN' not found in guild 710144225647525928 ('RV's Heavenly Hell😈'). Cannot set channel permissions correctly.
+2026-07-18 16:43:20 | INFO     | __main__ | Created channel #zio-audit in guild 710144225647525928
+2026-07-18 16:43:20 | INFO     | __main__ | Created channel #trial-channel in guild 710144225647525928
+2026-07-18 16:43:20 | ERROR    | __main__ | Role 'MINECRAFT ADMIN' not found in guild 1136798852767289384 ('Faiz's Heaven'). Cannot set channel permissions correctly.
+2026-07-18 16:43:21 | INFO     | __main__ | Created channel #zio-audit in guild 1136798852767289384
+2026-07-18 16:43:21 | INFO     | __main__ | Created channel #trial-channel in guild 1136798852767289384
+2026-07-18 16:43:21 | ERROR    | __main__ | Role 'MINECRAFT ADMIN' not found in guild 1159078992691855370 ('𝐂𝐇𝐄𝐀𝐏𝐄𝐒𝐓 𝐑𝐎𝐁𝐔𝐗'). Cannot set channel permissions correctly.
+2026-07-18 16:43:22 | ERROR    | __main__ | Missing permission to create channel #zio-audit
+Traceback (most recent call last):
+  File "c:\Users\karan\OneDrive\Documents\dcbot\main.py", line 111, in ensure_channels
+    await guild.create_text_channel(
+    ...<4 lines>...
+    )
+  File "C:\Users\karan\OneDrive\Documents\dcbot\dcbot\Lib\site-packages\discord\guild.py", line 1531, in create_text_channel
+    data = await self._create_channel(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\karan\OneDrive\Documents\dcbot\dcbot\Lib\site-packages\discord\http.py", line 772, in request
+    raise Forbidden(response, data)
+discord.errors.Forbidden: 403 Forbidden (error code: 50013): Missing Permissions
+2026-07-18 16:43:22 | ERROR    | __main__ | Missing permission to create channel #trial-channel
+Traceback (most recent call last):
+  File "c:\Users\karan\OneDrive\Documents\dcbot\main.py", line 111, in ensure_channels
+    await guild.create_text_channel(
+    ...<4 lines>...
+    )
+  File "C:\Users\karan\OneDrive\Documents\dcbot\dcbot\Lib\site-packages\discord\guild.py", line 1531, in create_text_channel
+    data = await self._create_channel(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\karan\OneDrive\Documents\dcbot\dcbot\Lib\site-packages\discord\http.py", line 772, in request
+    raise Forbidden(response, data)
+discord.errors.Forbidden: 403 Forbidden (error code: 50013): Missing Permissions
+2026-07-18 16:43:22 | ERROR    | __main__ | Role 'MINECRAFT ADMIN' not found in guild 1208372154455035914 ('ZioBot'). Cannot set channel permissions correctly.
+2026-07-18 16:43:22 | INFO     | __main__ | Created channel #zio-audit in guild 1208372154455035914
+2026-07-18 16:43:23 | INFO     | __main__ | Created channel #trial-channel in guild 1208372154455035914
+2026-07-18 16:43:23 | ERROR    | __main__ | Role 'MINECRAFT ADMIN' not found in guild 1272154241791692913 ('ZioBot Community Server'). Cannot set channel permissions correctly.
+2026-07-18 16:43:23 | INFO     | __main__ | Created channel #zio-audit in guild 1272154241791692913
+2026-07-18 16:43:24 | INFO     | __main__ | Created channel #trial-channel in guild 1272154241791692913
+2026-07-18 16:43:24 | ERROR    | __main__ | Role 'MINECRAFT ADMIN' not found in guild 1354786250351185971 ('Haven'). Cannot set channel permissions correctly.
+2026-07-18 16:43:24 | INFO     | __main__ | Created channel #zio-audit in guild 1354786250351185971
+2026-07-18 16:43:25 | INFO     | __main__ | Created channel #trial-channel in guild 1354786250351185971
+2026-07-18 16:43:25 | ERROR    | __main__ | Role 'MINECRAFT ADMIN' not found in guild 1509677350802161704 ('GEG-marine die'). Cannot set channel permissions correctly.
+2026-07-18 16:43:25 | INFO     | __main__ | Created channel #zio-audit in guild 1509677350802161704
+2026-07-18 16:43:26 | INFO     | __main__ | Created channel #trial-channel in guild 1509677350802161704
+2026-07-18 16:50:45 | WARNING  | discord.client | PyNaCl is not installed, voice will NOT be supported
+2026-07-18 16:50:45 | WARNING  | discord.client | davey is not installed, voice will NOT be supported
+2026-07-18 16:50:47 | INFO     | database | Connected to MongoDB Atlas (db=smp_bot)
+2026-07-18 16:50:47 | INFO     | __main__ | Loaded extension: cogs.whitelist
+2026-07-18 16:50:47 | INFO     | __main__ | Loaded extension: cogs.payments
+2026-07-18 16:50:47 | INFO     | __main__ | Loaded extension: cogs.audit
+2026-07-18 16:50:47 | INFO     | cogs.subscriptions | Subscription scheduler started (daily at 00:05 UTC)
+2026-07-18 16:50:47 | INFO     | __main__ | Loaded extension: cogs.subscriptions
+2026-07-18 16:50:48 | INFO     | __main__ | Synced 3 application command(s)
+2026-07-18 16:50:54 | INFO     | __main__ | Logged in as ZioBot#8487 (ID: 1208364213995839529)
+2026-07-18 16:50:54 | ERROR    | discord.client | Ignoring exception in on_ready
+Traceback (most recent call last):
+  File "C:\Users\karan\OneDrive\Documents\dcbot\dcbot\Lib\site-packages\discord\client.py", line 508, in _run_event
+    await coro(*args, **kwargs)
+  File "c:\Users\karan\OneDrive\Documents\dcbot\main.py", line 75, in on_ready
+    await ensure_channels(guild)
+  File "c:\Users\karan\OneDrive\Documents\dcbot\main.py", line 88, in ensure_channels
+    category = guild.get_channel(CATEGORY_ID)
+                                 ^^^^^^^^^^^
+NameError: name 'CATEGORY_ID' is not defined
+2026-07-18 16:51:32 | WARNING  | discord.client | PyNaCl is not installed, voice will NOT be supported
+2026-07-18 16:51:32 | WARNING  | discord.client | davey is not installed, voice will NOT be supported
+2026-07-18 16:51:34 | INFO     | database | Connected to MongoDB Atlas (db=smp_bot)
+2026-07-18 16:51:34 | INFO     | __main__ | Loaded extension: cogs.whitelist
+2026-07-18 16:51:34 | INFO     | __main__ | Loaded extension: cogs.payments
+2026-07-18 16:51:34 | INFO     | __main__ | Loaded extension: cogs.audit
+2026-07-18 16:51:34 | INFO     | cogs.subscriptions | Subscription scheduler started (daily at 00:05 UTC)
+2026-07-18 16:51:34 | INFO     | __main__ | Loaded extension: cogs.subscriptions
+2026-07-18 16:51:35 | INFO     | __main__ | Synced 3 application command(s)
+2026-07-18 16:51:41 | INFO     | __main__ | Logged in as ZioBot#8487 (ID: 1208364213995839529)
+2026-07-18 16:51:41 | ERROR    | discord.client | Ignoring exception in on_ready
+Traceback (most recent call last):
+  File "C:\Users\karan\OneDrive\Documents\dcbot\dcbot\Lib\site-packages\discord\client.py", line 508, in _run_event
+    await coro(*args, **kwargs)
+  File "c:\Users\karan\OneDrive\Documents\dcbot\main.py", line 75, in on_ready
+    await ensure_channels(guild)
+  File "c:\Users\karan\OneDrive\Documents\dcbot\main.py", line 88, in ensure_channels
+    category = guild.get_channel(CATEGORY_ID)
+                                 ^^^^^^^^^^^
+NameError: name 'CATEGORY_ID' is not defined
+2026-07-18 16:52:15 | WARNING  | discord.client | PyNaCl is not installed, voice will NOT be supported
+2026-07-18 16:52:15 | WARNING  | discord.client | davey is not installed, voice will NOT be supported
+2026-07-18 16:52:17 | INFO     | database | Connected to MongoDB Atlas (db=smp_bot)
+2026-07-18 16:52:17 | INFO     | __main__ | Loaded extension: cogs.whitelist
+2026-07-18 16:52:17 | INFO     | __main__ | Loaded extension: cogs.payments
+2026-07-18 16:52:17 | INFO     | __main__ | Loaded extension: cogs.audit
+2026-07-18 16:52:17 | INFO     | cogs.subscriptions | Subscription scheduler started (daily at 00:05 UTC)
+2026-07-18 16:52:17 | INFO     | __main__ | Loaded extension: cogs.subscriptions
+2026-07-18 16:52:17 | INFO     | __main__ | Synced 3 application command(s)
+2026-07-18 16:52:23 | INFO     | __main__ | Logged in as ZioBot#8487 (ID: 1208364213995839529)
+2026-07-18 16:52:23 | ERROR    | __main__ | Category 818112617628565546 not found in guild 473781331113803778 ('Karan's Hangout'). Skipping channel creation.
+2026-07-18 16:52:23 | ERROR    | __main__ | Category 818112617628565546 not found in guild 700701341105782850 ('Costin's Official Discord Server'). Skipping channel creation.
+2026-07-18 16:52:23 | ERROR    | __main__ | Category 818112617628565546 not found in guild 710144225647525928 ('RV's Heavenly Hell😈'). Skipping channel creation.
+2026-07-18 16:52:24 | INFO     | __main__ | Created channel #zio-audit in guild 790466157705822209
+2026-07-18 16:52:24 | INFO     | __main__ | Created channel #trial-channel in guild 790466157705822209
+2026-07-18 16:52:24 | ERROR    | __main__ | Category 818112617628565546 not found in guild 1136798852767289384 ('Faiz's Heaven'). Skipping channel creation.
+2026-07-18 16:52:24 | ERROR    | __main__ | Category 818112617628565546 not found in guild 1159078992691855370 ('𝐂𝐇𝐄𝐀𝐏𝐄𝐒𝐓 𝐑𝐎𝐁𝐔𝐗'). Skipping channel creation.
+2026-07-18 16:52:24 | ERROR    | __main__ | Category 818112617628565546 not found in guild 1208372154455035914 ('ZioBot'). Skipping channel creation.
+2026-07-18 16:52:24 | ERROR    | __main__ | Category 818112617628565546 not found in guild 1272154241791692913 ('ZioBot Community Server'). Skipping channel creation.
+2026-07-18 16:52:24 | ERROR    | __main__ | Category 818112617628565546 not found in guild 1354786250351185971 ('Haven'). Skipping channel creation.
+2026-07-18 16:52:24 | ERROR    | __main__ | Category 818112617628565546 not found in guild 1509677350802161704 ('GEG-marine die'). Skipping channel creation.
+2026-07-18 17:02:45 | WARNING  | discord.client | PyNaCl is not installed, voice will NOT be supported
+2026-07-18 17:02:45 | WARNING  | discord.client | davey is not installed, voice will NOT be supported
+2026-07-18 17:02:47 | INFO     | database | Connected to MongoDB Atlas (db=smp_bot)
+2026-07-18 17:02:47 | INFO     | __main__ | Loaded extension: cogs.whitelist
+2026-07-18 17:02:47 | INFO     | __main__ | Loaded extension: cogs.payments
+2026-07-18 17:02:47 | INFO     | __main__ | Loaded extension: cogs.audit
+2026-07-18 17:02:47 | INFO     | cogs.subscriptions | Subscription scheduler started (daily at 00:05 UTC)
+2026-07-18 17:02:47 | INFO     | __main__ | Loaded extension: cogs.subscriptions
+2026-07-18 17:02:47 | INFO     | __main__ | Synced 3 application command(s)
+2026-07-18 17:02:53 | INFO     | __main__ | Logged in as ZioBot#8487 (ID: 1208364213995839529)
+2026-07-18 17:02:53 | ERROR    | __main__ | Category 818112617628565546 not found in guild 473781331113803778 ('Karan's Hangout'). Skipping channel creation.
+2026-07-18 17:02:53 | ERROR    | __main__ | Whitelisting channel 1527323483078529074 not found in guild 473781331113803778
+2026-07-18 17:02:53 | ERROR    | __main__ | Category 818112617628565546 not found in guild 700701341105782850 ('Costin's Official Discord Server'). Skipping channel creation.
+2026-07-18 17:02:53 | ERROR    | __main__ | Whitelisting channel 1527323483078529074 not found in guild 700701341105782850
+2026-07-18 17:02:53 | ERROR    | __main__ | Category 818112617628565546 not found in guild 710144225647525928 ('RV's Heavenly Hell😈'). Skipping channel creation.
+2026-07-18 17:02:53 | ERROR    | __main__ | Whitelisting channel 1527323483078529074 not found in guild 710144225647525928
+2026-07-18 17:02:54 | INFO     | __main__ | Posted whitelist application message in guild 790466157705822209
+2026-07-18 17:02:54 | ERROR    | __main__ | Category 818112617628565546 not found in guild 1136798852767289384 ('Faiz's Heaven'). Skipping channel creation.
+2026-07-18 17:02:54 | ERROR    | __main__ | Whitelisting channel 1527323483078529074 not found in guild 1136798852767289384
+2026-07-18 17:02:54 | ERROR    | __main__ | Category 818112617628565546 not found in guild 1159078992691855370 ('𝐂𝐇𝐄𝐀𝐏𝐄𝐒𝐓 𝐑𝐎𝐁𝐔𝐗'). Skipping channel creation.
+2026-07-18 17:02:54 | ERROR    | __main__ | Whitelisting channel 1527323483078529074 not found in guild 1159078992691855370
+2026-07-18 17:02:54 | ERROR    | __main__ | Category 818112617628565546 not found in guild 1208372154455035914 ('ZioBot'). Skipping channel creation.
+2026-07-18 17:02:54 | ERROR    | __main__ | Whitelisting channel 1527323483078529074 not found in guild 1208372154455035914
+2026-07-18 17:02:54 | ERROR    | __main__ | Category 818112617628565546 not found in guild 1272154241791692913 ('ZioBot Community Server'). Skipping channel creation.
+2026-07-18 17:02:54 | ERROR    | __main__ | Whitelisting channel 1527323483078529074 not found in guild 1272154241791692913
+2026-07-18 17:02:54 | ERROR    | __main__ | Category 818112617628565546 not found in guild 1354786250351185971 ('Haven'). Skipping channel creation.
+2026-07-18 17:02:54 | ERROR    | __main__ | Whitelisting channel 1527323483078529074 not found in guild 1354786250351185971
+2026-07-18 17:02:54 | ERROR    | __main__ | Category 818112617628565546 not found in guild 1509677350802161704 ('GEG-marine die'). Skipping channel creation.
+2026-07-18 17:02:54 | ERROR    | __main__ | Whitelisting channel 1527323483078529074 not found in guild 1509677350802161704
+2026-07-18 17:05:10 | INFO     | database | Created user record for zio110 (531337147819753472)
+2026-07-18 17:05:11 | INFO     | views.application_form | Auto-whitelisted 531337147819753472 via application form
+2026-07-18 17:05:22 | INFO     | views.application_form | Application from 874415275473240075 requires manual review (consent='no')
+2026-07-18 17:55:19 | WARNING  | discord.client | PyNaCl is not installed, voice will NOT be supported
+2026-07-18 17:55:19 | WARNING  | discord.client | davey is not installed, voice will NOT be supported
+2026-07-18 17:55:22 | INFO     | database | Connected to MongoDB Atlas (db=smp_bot)
+2026-07-18 17:55:22 | INFO     | __main__ | Loaded extension: cogs.whitelist
+2026-07-18 17:55:22 | INFO     | __main__ | Loaded extension: cogs.payments
+2026-07-18 17:55:22 | INFO     | __main__ | Loaded extension: cogs.audit
+2026-07-18 17:55:23 | INFO     | cogs.subscriptions | Subscription scheduler started (daily at 00:05 UTC)
+2026-07-18 17:55:23 | INFO     | __main__ | Loaded extension: cogs.subscriptions
+2026-07-18 17:55:23 | INFO     | __main__ | Loaded extension: cogs.setup
+2026-07-18 17:55:24 | INFO     | __main__ | Synced 4 application command(s)
+2026-07-18 17:55:29 | INFO     | __main__ | Logged in as ZioBot#8487 (ID: 1208364213995839529)
+2026-07-18 17:55:29 | ERROR    | __main__ | Category 818112617628565546 not found in guild 473781331113803778 ('Karan's Hangout'). Skipping channel creation.
+2026-07-18 17:55:29 | ERROR    | __main__ | Whitelisting channel 1527323483078529074 not found in guild 473781331113803778
+2026-07-18 17:55:29 | ERROR    | __main__ | Category 818112617628565546 not found in guild 700701341105782850 ('Costin's Official Discord Server'). Skipping channel creation.
+2026-07-18 17:55:30 | ERROR    | __main__ | Whitelisting channel 1527323483078529074 not found in guild 700701341105782850
+2026-07-18 17:55:30 | ERROR    | __main__ | Category 818112617628565546 not found in guild 710144225647525928 ('RV's Heavenly Hell😈'). Skipping channel creation.
+2026-07-18 17:55:30 | ERROR    | __main__ | Whitelisting channel 1527323483078529074 not found in guild 710144225647525928
+2026-07-18 17:55:30 | ERROR    | __main__ | Category 818112617628565546 not found in guild 1136798852767289384 ('Faiz's Heaven'). Skipping channel creation.
+2026-07-18 17:55:30 | ERROR    | __main__ | Whitelisting channel 1527323483078529074 not found in guild 1136798852767289384
+2026-07-18 17:55:30 | ERROR    | __main__ | Category 818112617628565546 not found in guild 1159078992691855370 ('𝐂𝐇𝐄𝐀𝐏𝐄𝐒𝐓 𝐑𝐎𝐁𝐔𝐗'). Skipping channel creation.
+2026-07-18 17:55:30 | ERROR    | __main__ | Whitelisting channel 1527323483078529074 not found in guild 1159078992691855370
+2026-07-18 17:55:30 | ERROR    | __main__ | Category 818112617628565546 not found in guild 1208372154455035914 ('ZioBot'). Skipping channel creation.
+2026-07-18 17:55:30 | ERROR    | __main__ | Whitelisting channel 1527323483078529074 not found in guild 1208372154455035914
+2026-07-18 17:55:30 | ERROR    | __main__ | Category 818112617628565546 not found in guild 1272154241791692913 ('ZioBot Community Server'). Skipping channel creation.
+2026-07-18 17:55:30 | ERROR    | __main__ | Whitelisting channel 1527323483078529074 not found in guild 1272154241791692913
+2026-07-18 17:55:30 | ERROR    | __main__ | Category 818112617628565546 not found in guild 1354786250351185971 ('Haven'). Skipping channel creation.
+2026-07-18 17:55:30 | ERROR    | __main__ | Whitelisting channel 1527323483078529074 not found in guild 1354786250351185971
+2026-07-18 17:55:30 | ERROR    | __main__ | Category 818112617628565546 not found in guild 1509677350802161704 ('GEG-marine die'). Skipping channel creation.
+2026-07-18 17:55:30 | ERROR    | __main__ | Whitelisting channel 1527323483078529074 not found in guild 1509677350802161704
+2026-07-18 17:58:14 | WARNING  | discord.client | PyNaCl is not installed, voice will NOT be supported
+2026-07-18 17:58:14 | WARNING  | discord.client | davey is not installed, voice will NOT be supported
+2026-07-18 17:58:16 | INFO     | database | Connected to MongoDB Atlas (db=smp_bot)
+2026-07-18 17:58:16 | INFO     | __main__ | Loaded extension: cogs.whitelist
+2026-07-18 17:58:16 | INFO     | __main__ | Loaded extension: cogs.payments
+2026-07-18 17:58:16 | INFO     | __main__ | Loaded extension: cogs.audit
+2026-07-18 17:58:16 | INFO     | cogs.subscriptions | Subscription scheduler started (daily at 00:05 UTC)
+2026-07-18 17:58:16 | INFO     | __main__ | Loaded extension: cogs.subscriptions
+2026-07-18 17:58:16 | INFO     | __main__ | Loaded extension: cogs.setup
+2026-07-18 17:58:17 | INFO     | __main__ | Synced 3 application command(s)
+2026-07-18 17:58:22 | INFO     | __main__ | Logged in as ZioBot#8487 (ID: 1208364213995839529)
+2026-07-18 17:58:22 | ERROR    | __main__ | Category 818112617628565546 not found in guild 473781331113803778 ('Karan's Hangout'). Skipping channel creation.
+2026-07-18 17:58:23 | ERROR    | __main__ | Whitelisting channel 1527323483078529074 not found in guild 473781331113803778
+2026-07-18 17:58:23 | ERROR    | __main__ | Category 818112617628565546 not found in guild 700701341105782850 ('Costin's Official Discord Server'). Skipping channel creation.
+2026-07-18 17:58:23 | ERROR    | __main__ | Whitelisting channel 1527323483078529074 not found in guild 700701341105782850
+2026-07-18 17:58:23 | ERROR    | __main__ | Category 818112617628565546 not found in guild 710144225647525928 ('RV's Heavenly Hell😈'). Skipping channel creation.
+2026-07-18 17:58:23 | ERROR    | __main__ | Whitelisting channel 1527323483078529074 not found in guild 710144225647525928
+2026-07-18 17:58:23 | ERROR    | __main__ | Category 818112617628565546 not found in guild 1136798852767289384 ('Faiz's Heaven'). Skipping channel creation.
+2026-07-18 17:58:23 | ERROR    | __main__ | Whitelisting channel 1527323483078529074 not found in guild 1136798852767289384
+2026-07-18 17:58:23 | ERROR    | __main__ | Category 818112617628565546 not found in guild 1159078992691855370 ('𝐂𝐇𝐄𝐀𝐏𝐄𝐒𝐓 𝐑𝐎𝐁𝐔𝐗'). Skipping channel creation.
+2026-07-18 17:58:23 | ERROR    | __main__ | Whitelisting channel 1527323483078529074 not found in guild 1159078992691855370
+2026-07-18 17:58:23 | ERROR    | __main__ | Category 818112617628565546 not found in guild 1208372154455035914 ('ZioBot'). Skipping channel creation.
+2026-07-18 17:58:23 | ERROR    | __main__ | Whitelisting channel 1527323483078529074 not found in guild 1208372154455035914
+2026-07-18 17:58:23 | ERROR    | __main__ | Category 818112617628565546 not found in guild 1272154241791692913 ('ZioBot Community Server'). Skipping channel creation.
+2026-07-18 17:58:24 | ERROR    | __main__ | Whitelisting channel 1527323483078529074 not found in guild 1272154241791692913
+2026-07-18 17:58:24 | ERROR    | __main__ | Category 818112617628565546 not found in guild 1354786250351185971 ('Haven'). Skipping channel creation.
+2026-07-18 17:58:24 | ERROR    | __main__ | Whitelisting channel 1527323483078529074 not found in guild 1354786250351185971
+2026-07-18 17:58:24 | ERROR    | __main__ | Category 818112617628565546 not found in guild 1509677350802161704 ('GEG-marine die'). Skipping channel creation.
+2026-07-18 17:58:24 | ERROR    | __main__ | Whitelisting channel 1527323483078529074 not found in guild 1509677350802161704
+2026-07-18 18:01:19 | WARNING  | discord.client | PyNaCl is not installed, voice will NOT be supported
+2026-07-18 18:01:19 | WARNING  | discord.client | davey is not installed, voice will NOT be supported
+2026-07-18 18:01:20 | INFO     | database | Connected to MongoDB Atlas (db=smp_bot)
+2026-07-18 18:01:20 | INFO     | __main__ | Loaded extension: cogs.whitelist
+2026-07-18 18:01:20 | INFO     | __main__ | Loaded extension: cogs.payments
+2026-07-18 18:01:20 | INFO     | __main__ | Loaded extension: cogs.audit
+2026-07-18 18:01:21 | INFO     | cogs.subscriptions | Subscription scheduler started (daily at 00:05 UTC)
+2026-07-18 18:01:21 | INFO     | __main__ | Loaded extension: cogs.subscriptions
+2026-07-18 18:01:21 | INFO     | __main__ | Loaded extension: cogs.setup
+2026-07-18 18:01:21 | INFO     | __main__ | Synced 3 application command(s)
+2026-07-18 18:01:27 | INFO     | __main__ | Logged in as ZioBot#8487 (ID: 1208364213995839529)
+2026-07-18 18:01:27 | ERROR    | __main__ | Category 818112617628565546 not found in guild 473781331113803778 ('Karan's Hangout'). Skipping channel creation.
+2026-07-18 18:01:27 | ERROR    | __main__ | Whitelisting channel 1527323483078529074 not found in guild 473781331113803778
+2026-07-18 18:01:27 | ERROR    | __main__ | Category 818112617628565546 not found in guild 700701341105782850 ('Costin's Official Discord Server'). Skipping channel creation.
+2026-07-18 18:01:27 | ERROR    | __main__ | Whitelisting channel 1527323483078529074 not found in guild 700701341105782850
+2026-07-18 18:01:27 | ERROR    | __main__ | Category 818112617628565546 not found in guild 710144225647525928 ('RV's Heavenly Hell😈'). Skipping channel creation.
+2026-07-18 18:01:27 | ERROR    | __main__ | Whitelisting channel 1527323483078529074 not found in guild 710144225647525928
+2026-07-18 18:01:27 | ERROR    | __main__ | Category 818112617628565546 not found in guild 1136798852767289384 ('Faiz's Heaven'). Skipping channel creation.
+2026-07-18 18:01:27 | ERROR    | __main__ | Whitelisting channel 1527323483078529074 not found in guild 1136798852767289384
+2026-07-18 18:01:27 | ERROR    | __main__ | Category 818112617628565546 not found in guild 1159078992691855370 ('𝐂𝐇𝐄𝐀𝐏𝐄𝐒𝐓 𝐑𝐎𝐁𝐔𝐗'). Skipping channel creation.
+2026-07-18 18:01:28 | ERROR    | __main__ | Whitelisting channel 1527323483078529074 not found in guild 1159078992691855370
+2026-07-18 18:01:28 | ERROR    | __main__ | Category 818112617628565546 not found in guild 1208372154455035914 ('ZioBot'). Skipping channel creation.
+2026-07-18 18:01:28 | ERROR    | __main__ | Whitelisting channel 1527323483078529074 not found in guild 1208372154455035914
+2026-07-18 18:01:28 | ERROR    | __main__ | Category 818112617628565546 not found in guild 1272154241791692913 ('ZioBot Community Server'). Skipping channel creation.
+2026-07-18 18:01:28 | ERROR    | __main__ | Whitelisting channel 1527323483078529074 not found in guild 1272154241791692913
+2026-07-18 18:01:28 | ERROR    | __main__ | Category 818112617628565546 not found in guild 1354786250351185971 ('Haven'). Skipping channel creation.
+2026-07-18 18:01:28 | ERROR    | __main__ | Whitelisting channel 1527323483078529074 not found in guild 1354786250351185971
+2026-07-18 18:01:28 | ERROR    | __main__ | Category 818112617628565546 not found in guild 1509677350802161704 ('GEG-marine die'). Skipping channel creation.
+2026-07-18 18:01:28 | ERROR    | __main__ | Whitelisting channel 1527323483078529074 not found in guild 1509677350802161704
+2026-07-18 18:01:49 | INFO     | cogs.setup | !setup invoked by 531337147819753472 in guild 790466157705822209
+2026-07-18 18:02:38 | INFO     | database | Guild 790466157705822209: set payment_gateway = 1527346320434528377
+2026-07-18 18:02:51 | INFO     | database | Guild 790466157705822209: set payment_confirmation = 1527366877234335844
+2026-07-18 18:03:54 | INFO     | database | Guild 790466157705822209: set whitelisting = 1527323483078529074
+2026-07-18 18:05:56 | INFO     | database | Created user record for ace_nub (900048074603380776)
+2026-07-18 18:05:59 | INFO     | views.application_form | Auto-whitelisted 900048074603380776 via application form
+2026-07-18 18:06:49 | INFO     | database | Recorded payment submission for 900048074603380776
+2026-07-18 18:06:51 | INFO     | cogs.payments | Payment submitted by 900048074603380776
+2026-07-18 18:07:16 | ERROR    | views.payment_buttons | Missing permissions to add roles to 900048074603380776
+Traceback (most recent call last):
+  File "c:\Users\karan\OneDrive\Documents\dcbot\views\payment_buttons.py", line 155, in _approve_flow
+    await member.add_roles(minecraft_role, reason="Payment approved")
+  File "C:\Users\karan\OneDrive\Documents\dcbot\dcbot\Lib\site-packages\discord\member.py", line 1148, in add_roles
+    await req(guild_id, user_id, role.id, reason=reason)
+  File "C:\Users\karan\OneDrive\Documents\dcbot\dcbot\Lib\site-packages\discord\http.py", line 772, in request
+    raise Forbidden(response, data)
+discord.errors.Forbidden: 403 Forbidden (error code: 50013): Missing Permissions
+2026-07-18 18:07:16 | INFO     | database | Approved payment for 900048074603380776 by admin 900048074603380776
+2026-07-18 18:07:17 | INFO     | views.payment_buttons | Payment approved for 900048074603380776 by 900048074603380776
+2026-07-18 18:10:44 | INFO     | views.application_form | Application from 518420989458251776 requires manual review (consent='No')
+2026-07-18 18:25:39 | INFO     | cogs.setup | !setup invoked by 531337147819753472 in guild 790466157705822209
+2026-07-18 18:26:04 | INFO     | database | Guild 790466157705822209: set audit = 1527998976937300098
+2026-07-18 18:28:26 | INFO     | database | Created user record for umeshchavan (874415275473240075)
+2026-07-18 18:28:28 | INFO     | views.application_form | Auto-whitelisted 874415275473240075 via application form
+2026-07-18 18:32:34 | INFO     | views.application_form | Application from 1122973308841902161 requires manual review (consent='No')
+2026-07-18 18:34:19 | WARNING  | discord.client | PyNaCl is not installed, voice will NOT be supported
+2026-07-18 18:34:19 | WARNING  | discord.client | davey is not installed, voice will NOT be supported
+2026-07-18 18:34:20 | INFO     | database | Connected to MongoDB Atlas (db=smp_bot)
+2026-07-18 18:34:20 | INFO     | __main__ | Loaded extension: cogs.whitelist
+2026-07-18 18:34:20 | INFO     | __main__ | Loaded extension: cogs.payments
+2026-07-18 18:34:20 | INFO     | __main__ | Loaded extension: cogs.audit
+2026-07-18 18:34:21 | INFO     | cogs.subscriptions | Subscription scheduler started (daily at 00:05 UTC)
+2026-07-18 18:34:21 | INFO     | __main__ | Loaded extension: cogs.subscriptions
+2026-07-18 18:34:21 | INFO     | __main__ | Loaded extension: cogs.setup
+2026-07-18 18:34:21 | INFO     | __main__ | Synced 3 application command(s)
+2026-07-18 18:34:27 | INFO     | __main__ | Logged in as ZioBot#8487 (ID: 1208364213995839529)
+2026-07-18 18:34:27 | ERROR    | __main__ | Category 818112617628565546 not found in guild 473781331113803778 ('Karan's Hangout'). Skipping channel creation.
+2026-07-18 18:34:27 | ERROR    | __main__ | Whitelisting channel 1527323483078529074 not found in guild 473781331113803778
+2026-07-18 18:34:27 | ERROR    | __main__ | Category 818112617628565546 not found in guild 700701341105782850 ('Costin's Official Discord Server'). Skipping channel creation.
+2026-07-18 18:34:27 | ERROR    | __main__ | Whitelisting channel 1527323483078529074 not found in guild 700701341105782850
+2026-07-18 18:34:27 | ERROR    | __main__ | Category 818112617628565546 not found in guild 710144225647525928 ('RV's Heavenly Hell😈'). Skipping channel creation.
+2026-07-18 18:34:27 | ERROR    | __main__ | Whitelisting channel 1527323483078529074 not found in guild 710144225647525928
+2026-07-18 18:34:28 | ERROR    | __main__ | Category 818112617628565546 not found in guild 1136798852767289384 ('Faiz's Heaven'). Skipping channel creation.
+2026-07-18 18:34:28 | ERROR    | __main__ | Whitelisting channel 1527323483078529074 not found in guild 1136798852767289384
+2026-07-18 18:34:28 | ERROR    | __main__ | Category 818112617628565546 not found in guild 1159078992691855370 ('𝐂𝐇𝐄𝐀𝐏𝐄𝐒𝐓 𝐑𝐎𝐁𝐔𝐗'). Skipping channel creation.
+2026-07-18 18:34:28 | ERROR    | __main__ | Whitelisting channel 1527323483078529074 not found in guild 1159078992691855370
+2026-07-18 18:34:28 | ERROR    | __main__ | Category 818112617628565546 not found in guild 1208372154455035914 ('ZioBot'). Skipping channel creation.
+2026-07-18 18:34:28 | ERROR    | __main__ | Whitelisting channel 1527323483078529074 not found in guild 1208372154455035914
+2026-07-18 18:34:28 | ERROR    | __main__ | Category 818112617628565546 not found in guild 1272154241791692913 ('ZioBot Community Server'). Skipping channel creation.
+2026-07-18 18:34:28 | ERROR    | __main__ | Whitelisting channel 1527323483078529074 not found in guild 1272154241791692913
+2026-07-18 18:34:28 | ERROR    | __main__ | Category 818112617628565546 not found in guild 1354786250351185971 ('Haven'). Skipping channel creation.
+2026-07-18 18:34:28 | ERROR    | __main__ | Whitelisting channel 1527323483078529074 not found in guild 1354786250351185971
+2026-07-18 18:34:28 | ERROR    | __main__ | Category 818112617628565546 not found in guild 1509677350802161704 ('GEG-marine die'). Skipping channel creation.
+2026-07-18 18:34:28 | ERROR    | __main__ | Whitelisting channel 1527323483078529074 not found in guild 1509677350802161704
+2026-07-18 18:35:02 | INFO     | views.application_form | Application from 1122973308841902161 requires manual review (consent='No')
+2026-07-18 18:47:01 | WARNING  | discord.client | PyNaCl is not installed, voice will NOT be supported
+2026-07-18 18:47:01 | WARNING  | discord.client | davey is not installed, voice will NOT be supported
+2026-07-18 18:47:03 | INFO     | database | Connected to MongoDB Atlas (db=smp_bot)
+2026-07-18 18:47:03 | INFO     | __main__ | Loaded extension: cogs.whitelist
+2026-07-18 18:47:03 | INFO     | __main__ | Loaded extension: cogs.payments
+2026-07-18 18:47:03 | INFO     | __main__ | Loaded extension: cogs.audit
+2026-07-18 18:47:03 | INFO     | cogs.subscriptions | Subscription scheduler started (daily at 00:05 UTC)
+2026-07-18 18:47:03 | INFO     | __main__ | Loaded extension: cogs.subscriptions
+2026-07-18 18:47:03 | INFO     | __main__ | Loaded extension: cogs.setup
+2026-07-18 18:47:03 | INFO     | __main__ | Synced 3 application command(s)
+2026-07-18 18:47:09 | INFO     | __main__ | Logged in as ZioBot#8487 (ID: 1208364213995839529)
+2026-07-18 18:47:09 | ERROR    | __main__ | Category 818112617628565546 not found in guild 473781331113803778 ('Karan's Hangout'). Skipping channel creation.
+2026-07-18 18:47:09 | ERROR    | __main__ | Whitelisting channel 1527323483078529074 not found in guild 473781331113803778
+2026-07-18 18:47:09 | ERROR    | __main__ | Category 818112617628565546 not found in guild 700701341105782850 ('Costin's Official Discord Server'). Skipping channel creation.
+2026-07-18 18:47:09 | ERROR    | __main__ | Whitelisting channel 1527323483078529074 not found in guild 700701341105782850
+2026-07-18 18:47:09 | ERROR    | __main__ | Category 818112617628565546 not found in guild 710144225647525928 ('RV's Heavenly Hell😈'). Skipping channel creation.
+2026-07-18 18:47:10 | ERROR    | __main__ | Whitelisting channel 1527323483078529074 not found in guild 710144225647525928
+2026-07-18 18:47:10 | ERROR    | __main__ | Category 818112617628565546 not found in guild 1136798852767289384 ('Faiz's Heaven'). Skipping channel creation.
+2026-07-18 18:47:10 | ERROR    | __main__ | Whitelisting channel 1527323483078529074 not found in guild 1136798852767289384
+2026-07-18 18:47:10 | ERROR    | __main__ | Category 818112617628565546 not found in guild 1159078992691855370 ('𝐂𝐇𝐄𝐀𝐏𝐄𝐒𝐓 𝐑𝐎𝐁𝐔𝐗'). Skipping channel creation.
+2026-07-18 18:47:10 | ERROR    | __main__ | Whitelisting channel 1527323483078529074 not found in guild 1159078992691855370
+2026-07-18 18:47:10 | ERROR    | __main__ | Category 818112617628565546 not found in guild 1208372154455035914 ('ZioBot'). Skipping channel creation.
+2026-07-18 18:47:10 | ERROR    | __main__ | Whitelisting channel 1527323483078529074 not found in guild 1208372154455035914
+2026-07-18 18:47:10 | ERROR    | __main__ | Category 818112617628565546 not found in guild 1272154241791692913 ('ZioBot Community Server'). Skipping channel creation.
+2026-07-18 18:47:10 | ERROR    | __main__ | Whitelisting channel 1527323483078529074 not found in guild 1272154241791692913
+2026-07-18 18:47:10 | ERROR    | __main__ | Category 818112617628565546 not found in guild 1354786250351185971 ('Haven'). Skipping channel creation.
+2026-07-18 18:47:10 | ERROR    | __main__ | Whitelisting channel 1527323483078529074 not found in guild 1354786250351185971
+2026-07-18 18:47:10 | ERROR    | __main__ | Category 818112617628565546 not found in guild 1509677350802161704 ('GEG-marine die'). Skipping channel creation.
+2026-07-18 18:47:10 | ERROR    | __main__ | Whitelisting channel 1527323483078529074 not found in guild 1509677350802161704
+2026-07-18 18:52:37 | INFO     | database | Created user record for akshita_61 (1122973308841902161)
+2026-07-18 18:52:39 | INFO     | views.application_form | Manual review: accepted 1122973308841902161 by 900048074603380776

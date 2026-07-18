@@ -24,18 +24,25 @@ from config import (
     ZIO_AUDIT_CHANNEL_NAME,
     TRIAL_CHANNEL_NAME,
     ROLE_MINECRAFT_ADMIN,
+    CATEGORY_ID,
+    WHITELISTING_CHANNEL_ID,
 )
 from database import Database
+from utils.channels import resolve_channel_id
 from utils.logger import get_logger
 from views.payment_buttons import PaymentVerificationView
+from views.application_form import WhitelistApplicationView, ManualReviewView
 
 logger = get_logger(__name__)
+
+APPLICATION_MARKER_TITLE = "📋 SMP Whitelist Application"
 
 INITIAL_EXTENSIONS = (
     "cogs.whitelist",
     "cogs.payments",
     "cogs.audit",
     "cogs.subscriptions",
+    "cogs.setup",
 )
 
 
@@ -58,8 +65,10 @@ class SMPBot(commands.Bot):
             except Exception:
                 logger.exception("Failed to load extension: %s", extension)
 
-        # Register the persistent view so buttons keep working after restarts.
+        # Register the persistent views so buttons keep working after restarts.
         self.add_view(PaymentVerificationView(self))
+        self.add_view(WhitelistApplicationView(self))
+        self.add_view(ManualReviewView(self))
 
         if GUILD_ID is not None:
             guild_obj = discord.Object(id=GUILD_ID)
@@ -72,15 +81,32 @@ class SMPBot(commands.Bot):
     async def on_ready(self) -> None:
         logger.info("Logged in as %s (ID: %s)", self.user, self.user.id if self.user else "?")
         for guild in self.guilds:
-            await ensure_channels(guild)
+            await ensure_channels(guild, self)
+            await ensure_application_message(guild, self)
 
     async def close(self) -> None:
         self.db.close()
         await super().close()
 
 
-async def ensure_channels(guild: discord.Guild) -> None:
-    """Create zio-audit and trial-channel if they don't already exist. Never creates roles."""
+async def ensure_channels(guild: discord.Guild, bot: "SMPBot") -> None:
+    """Create zio-audit and trial-channel if they don't already exist. Never creates roles.
+
+    Both channels are created inside the configured category (from /setup or
+    the fallback CATEGORY_ID). If that category doesn't exist in this guild,
+    channel creation is skipped entirely.
+    """
+    cat_id = await resolve_channel_id(bot.db, guild.id, "category", CATEGORY_ID)
+    category = guild.get_channel(cat_id)
+    if category is None or not isinstance(category, discord.CategoryChannel):
+        logger.error(
+            "Category %s not found in guild %s ('%s'). Skipping channel creation.",
+            cat_id,
+            guild.id,
+            guild.name,
+        )
+        return
+
     admin_role = discord.utils.get(guild.roles, name=ROLE_MINECRAFT_ADMIN)
     if admin_role is None:
         logger.error(
@@ -110,6 +136,7 @@ async def ensure_channels(guild: discord.Guild) -> None:
         try:
             await guild.create_text_channel(
                 name=channel_name,
+                category=category,
                 overwrites=overwrites,
                 topic=topic,
                 reason="SMP bot startup: ensuring required channel exists",
@@ -119,6 +146,45 @@ async def ensure_channels(guild: discord.Guild) -> None:
             logger.exception("Missing permission to create channel #%s", channel_name)
         except discord.HTTPException:
             logger.exception("Failed to create channel #%s", channel_name)
+
+
+async def ensure_application_message(guild: discord.Guild, bot: "SMPBot") -> None:
+    """Post the whitelist application sticky message (with Apply button) once, if missing."""
+    wl_id = await resolve_channel_id(bot.db, guild.id, "whitelisting", WHITELISTING_CHANNEL_ID)
+    channel = guild.get_channel(wl_id)
+    if channel is None or not isinstance(channel, discord.TextChannel):
+        logger.error("Whitelisting channel %s not found in guild %s", wl_id, guild.id)
+        return
+
+    try:
+        async for message in channel.history(limit=50):
+            if (
+                bot.user is not None
+                and message.author.id == bot.user.id
+                and message.embeds
+                and message.embeds[0].title == APPLICATION_MARKER_TITLE
+            ):
+                return  # Already posted - don't duplicate it.
+    except discord.HTTPException:
+        logger.exception("Failed to read history of whitelisting channel")
+        return
+
+    embed = discord.Embed(
+        title=APPLICATION_MARKER_TITLE,
+        description=(
+            "Welcome! Before joining the server, every player must complete this short "
+            "application. This helps us build a friendly, active, and mature community "
+            "that values fair play and long-term progression.\n\n"
+            "Click the button below to apply.\n\n"
+            "Applications are usually reviewed within 12–24 hours."
+        ),
+        color=discord.Color.blurple(),
+    )
+    try:
+        await channel.send(embed=embed, view=WhitelistApplicationView(bot))
+        logger.info("Posted whitelist application message in guild %s", guild.id)
+    except discord.HTTPException:
+        logger.exception("Failed to post whitelist application message")
 
 
 async def main() -> None:

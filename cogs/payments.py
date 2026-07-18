@@ -16,6 +16,7 @@ import discord
 from discord.ext import commands
 
 from config import PAYMENT_CONFIRMATION_CHANNEL_ID, ZIO_AUDIT_CHANNEL_NAME
+from utils.channels import resolve_channel_id
 from utils.embeds import payment_verification_embed
 from utils.logger import get_logger
 from views.payment_buttons import PaymentVerificationView
@@ -36,7 +37,14 @@ class PaymentsCog(commands.Cog):
     async def on_message(self, message: discord.Message) -> None:
         if message.author.bot:
             return
-        if message.channel.id != PAYMENT_CONFIRMATION_CHANNEL_ID:
+        if message.guild is None:
+            return
+
+        # Resolve the payment-confirmation channel dynamically
+        expected_channel_id = await resolve_channel_id(
+            self.bot.db, message.guild.id, "payment_confirmation", PAYMENT_CONFIRMATION_CHANNEL_ID
+        )
+        if message.channel.id != expected_channel_id:
             return
         if not message.attachments:
             return

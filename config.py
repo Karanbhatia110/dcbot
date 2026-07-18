@@ -29,7 +29,9 @@ if not MONGODB_URI:
     raise RuntimeError("MONGODB_URI is not set. Please set it in your .env file.")
 
 # ---------------------------------------------------------------------------
-# Existing channels (DO NOT CREATE THESE - they already exist on the server)
+# Default / fallback channel IDs. These are used when a guild has NOT yet
+# configured channels via /setup. Once /setup is run, the DB values take
+# priority over these constants.
 # ---------------------------------------------------------------------------
 PAYMENT_GATEWAY_CHANNEL_ID: int = 1527346320434528377
 WHITELISTING_CHANNEL_ID: int = 1527323483078529074
@@ -40,6 +42,9 @@ PAYMENT_CONFIRMATION_CHANNEL_ID: int = 1527366877234335844
 # ---------------------------------------------------------------------------
 ZIO_AUDIT_CHANNEL_NAME: str = "zio-audit"
 TRIAL_CHANNEL_NAME: str = "trial-channel"
+
+# Default category for bot-created channels. Overridden by /setup.
+CATEGORY_ID: int = 818112617628565546
 
 # ---------------------------------------------------------------------------
 # Existing roles (DO NOT CREATE THESE - fetched by name, never created)
@@ -54,9 +59,10 @@ ROLE_SMP_APPLICANT: str = "SMP Applicant"
 # ---------------------------------------------------------------------------
 PAYMENT_AMOUNT_INR: int = 69
 SUBSCRIPTION_DAYS: int = 30
-REMINDER_DAYS_BEFORE_EXPIRY: tuple[int, ...] = (7, 3, 1)
+REMINDER_DAYS_BEFORE_EXPIRY: tuple[int, ...] = (3, 1)
 
-# MongoDB collection name
+# MongoDB collection names
+GUILD_SETTINGS_COLLECTION: str = "guild_settings"
 USERS_COLLECTION: str = "users"
 
 # Logging

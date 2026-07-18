@@ -14,7 +14,7 @@ from typing import Any, Optional
 from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorCollection
 from pymongo.errors import PyMongoError
 
-from config import MONGODB_URI, MONGODB_DB_NAME, USERS_COLLECTION, SUBSCRIPTION_DAYS
+from config import MONGODB_URI, MONGODB_DB_NAME, USERS_COLLECTION, SUBSCRIPTION_DAYS, GUILD_SETTINGS_COLLECTION
 from models.user_model import UserRecord, utcnow
 from utils.logger import get_logger
 
@@ -28,12 +28,12 @@ class Database:
         self.client: AsyncIOMotorClient = AsyncIOMotorClient(MONGODB_URI)
         self.db = self.client[MONGODB_DB_NAME]
         self.users: AsyncIOMotorCollection = self.db[USERS_COLLECTION]
+        self.guild_settings: AsyncIOMotorCollection = self.db[GUILD_SETTINGS_COLLECTION]
 
     async def connect(self) -> None:
         """Verify the connection and create indexes."""
         try:
             await self.client.admin.command("ping")
-            await self.users.create_index("_id", unique=True)
             await self.users.create_index("status")
             await self.users.create_index("subscription_end")
             logger.info("Connected to MongoDB Atlas (db=%s)", MONGODB_DB_NAME)
@@ -213,3 +213,39 @@ class Database:
             )
         except PyMongoError:
             logger.exception("Failed to mark reminder sent for %s", discord_id)
+
+    # ------------------------------------------------------------------
+    # Guild settings (per-guild channel / category configuration)
+    # ------------------------------------------------------------------
+    async def get_guild_settings(self, guild_id: int) -> Optional[dict[str, Any]]:
+        """Return the settings document for a guild, or None."""
+        try:
+            return await self.guild_settings.find_one({"_id": str(guild_id)})
+        except PyMongoError:
+            logger.exception("Failed to fetch guild settings for %s", guild_id)
+            return None
+
+    async def set_guild_channel(self, guild_id: int, key: str, channel_id: int) -> None:
+        """Upsert a single channel/category setting for a guild.
+
+        *key* should be one of: ``payment_gateway``, ``payment_confirmation``,
+        ``whitelisting``, ``audit``, ``category``.
+        """
+        try:
+            await self.guild_settings.update_one(
+                {"_id": str(guild_id)},
+                {"$set": {key: channel_id, "updated_at": utcnow()}},
+                upsert=True,
+            )
+            logger.info("Guild %s: set %s = %s", guild_id, key, channel_id)
+        except PyMongoError:
+            logger.exception("Failed to set guild channel %s for %s", key, guild_id)
+            raise
+
+    async def get_channel_id(self, guild_id: int, key: str) -> Optional[int]:
+        """Return the stored channel/category ID for *key*, or None."""
+        doc = await self.get_guild_settings(guild_id)
+        if doc is None:
+            return None
+        value = doc.get(key)
+        return int(value) if value is not None else None
