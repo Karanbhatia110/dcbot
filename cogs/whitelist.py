@@ -27,11 +27,14 @@ from config import (
 from utils.channels import resolve_channel_id
 from utils.embeds import audit_log_embed, COLOR_INFO
 from utils.logger import get_logger
+from views.application_form import WhitelistApplicationView
 
 if TYPE_CHECKING:
     from main import SMPBot
 
 logger = get_logger(__name__)
+
+APPLICATION_MARKER_TITLE = "📋 SMP Whitelist Application"
 
 
 def is_admin():
@@ -81,6 +84,74 @@ class WhitelistCog(commands.Cog):
                 )
             except discord.HTTPException:
                 logger.exception("Failed to notify admins in #%s", ZIO_AUDIT_CHANNEL_NAME)
+
+    @commands.command(name="mcform", help="Post the whitelist application form in this channel.")
+    @commands.has_permissions(administrator=True)
+    async def mcform_cmd(self, ctx: commands.Context) -> None:
+        """Post the SMP whitelist application embed + Apply button in the current channel."""
+        guild = ctx.guild
+        if guild is None:
+            await ctx.send("❌ This command can only be used in a server.")
+            return
+
+        member = ctx.author
+        if isinstance(member, discord.Member):
+            admin_role = discord.utils.get(guild.roles, name=ROLE_MINECRAFT_ADMIN)
+            has_mc_admin = admin_role is not None and admin_role in member.roles
+            has_server_admin = member.guild_permissions.administrator
+            if not has_mc_admin and not has_server_admin:
+                await ctx.send(
+                    "❌ You need the `MINECRAFT ADMIN` role or server Administrator permission.",
+                    delete_after=10,
+                )
+                return
+
+        channel = ctx.channel
+        if not isinstance(channel, discord.TextChannel):
+            await ctx.send("❌ This command can only be used in a text channel.")
+            return
+
+        # Avoid duplicating the form in the same channel
+        try:
+            async for message in channel.history(limit=50):
+                if (
+                    self.bot.user is not None
+                    and message.author.id == self.bot.user.id
+                    and message.embeds
+                    and message.embeds[0].title == APPLICATION_MARKER_TITLE
+                ):
+                    await ctx.send(
+                        "ℹ️ The whitelist application form is already posted in this channel.",
+                        delete_after=10,
+                    )
+                    return
+        except discord.HTTPException:
+            pass
+
+        embed = discord.Embed(
+            title=APPLICATION_MARKER_TITLE,
+            description=(
+                "Welcome! Before joining the server, every player must complete this short "
+                "application. This helps us build a friendly, active, and mature community "
+                "that values fair play and long-term progression.\n\n"
+                "Click the button below to apply.\n\n"
+                "Applications are usually reviewed within 12–24 hours."
+            ),
+            color=discord.Color.blurple(),
+        )
+        try:
+            await channel.send(embed=embed, view=WhitelistApplicationView(self.bot))
+            logger.info("!mcform: posted whitelist form in #%s (guild %s)", channel.name, guild.id)
+        except discord.HTTPException:
+            logger.exception("Failed to post whitelist application via !mcform")
+            await ctx.send("❌ Failed to post the application form.", delete_after=10)
+            return
+
+        # Delete the invoking command message to keep the channel clean
+        try:
+            await ctx.message.delete()
+        except (discord.Forbidden, discord.HTTPException):
+            pass
 
     @app_commands.command(
         name="whitelist_accept", description="Accept a user's SMP whitelist application."

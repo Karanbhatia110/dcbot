@@ -146,28 +146,45 @@ class PaymentVerificationView(discord.ui.View):
             logger.error("Role '%s' not found in guild %s", ROLE_MINECRAFT, guild.id)
             await _notify_admins_missing_role(self.bot, guild, ROLE_MINECRAFT)
             await interaction.followup.send(
-                f"⚠️ Role `{ROLE_MINECRAFT}` not found. Approval aborted.", ephemeral=True
+                f"⚠️ Role `{ROLE_MINECRAFT}` not found. Please create a role named "
+                f"**{ROLE_MINECRAFT}** and try again.", ephemeral=True
             )
             return
 
+        role_assigned = False
         if member is not None:
             try:
                 await member.add_roles(minecraft_role, reason="Payment approved")
                 if whitelisted_role and whitelisted_role not in member.roles:
                     await member.add_roles(whitelisted_role, reason="Ensure whitelisted role retained")
+                role_assigned = True
             except discord.Forbidden:
                 logger.exception("Missing permissions to add roles to %s", target_id)
+                await interaction.followup.send(
+                    f"⚠️ I lack permission to assign `{ROLE_MINECRAFT}` to <@{target_id}>. "
+                    f"Make sure my role is **above** `{ROLE_MINECRAFT}` in the role hierarchy.",
+                    ephemeral=True,
+                )
 
         user_doc = await self.bot.db.approve_payment(target_id, interaction.user.id)
 
         if member is not None:
-            try:
-                await member.send(
-                    "✅ Payment verified.\nYou now have access to the SMP. "
-                    "Check the server-ip and modpack channels."
-                )
-            except discord.Forbidden:
-                logger.warning("Could not DM user %s (DMs closed)", target_id)
+            if role_assigned:
+                try:
+                    await member.send(
+                        "✅ Payment verified.\nYou now have access to the SMP. "
+                        "Check the server-ip and modpack channels."
+                    )
+                except discord.Forbidden:
+                    logger.warning("Could not DM user %s (DMs closed)", target_id)
+            else:
+                try:
+                    await member.send(
+                        "📨 Your payment has been recorded but there was an issue assigning your role. "
+                        "Staff has been notified — you'll get access shortly."
+                    )
+                except discord.Forbidden:
+                    logger.warning("Could not DM user %s (DMs closed)", target_id)
 
         await self._update_embed_status(interaction, "✅ Approved", COLOR_APPROVED)
 
