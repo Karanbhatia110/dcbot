@@ -6,7 +6,7 @@ short form, and submit. If they answer "yes" to question 4 (consent to be
 removed/banned if caught cheating), the bot immediately grants the
 Whitelisted role and creates their MongoDB record - mirroring what
 /whitelist_accept does manually. Any other answer is forwarded to
-#zio-audit for manual admin review and no role is granted automatically.
+the audit channel for manual admin review and no role is granted automatically.
 """
 
 from __future__ import annotations
@@ -18,12 +18,11 @@ import discord
 from config import (
     ROLE_WHITELISTED,
     ROLE_MINECRAFT_ADMIN,
-    ZIO_AUDIT_CHANNEL_NAME,
     PAYMENT_GATEWAY_CHANNEL_ID,
     PAYMENT_CONFIRMATION_CHANNEL_ID,
     PAYMENT_AMOUNT_INR,
 )
-from utils.channels import resolve_channel_id
+from utils.channels import resolve_channel_id, resolve_audit_channel
 from utils.embeds import audit_log_embed, COLOR_INFO, COLOR_PENDING
 from utils.logger import get_logger
 
@@ -79,7 +78,7 @@ class WhitelistApplicationModal(discord.ui.Modal, title="SMP Whitelist Applicati
             return
 
         consented = self.consent.value.strip().lower() in CONSENT_YES_VALUES
-        audit_channel = discord.utils.get(guild.text_channels, name=ZIO_AUDIT_CHANNEL_NAME)
+        audit_channel = await resolve_audit_channel(self.bot.db, guild)
 
         if consented:
             await self._grant_whitelist(interaction, guild, member, audit_channel)

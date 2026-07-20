@@ -15,6 +15,7 @@ from typing import TYPE_CHECKING
 import discord
 
 from config import ROLE_MINECRAFT_ADMIN, ROLE_MINECRAFT, ROLE_WHITELISTED, ZIO_AUDIT_CHANNEL_NAME
+from utils.channels import resolve_audit_channel
 from utils.embeds import audit_log_embed, COLOR_APPROVED, COLOR_REJECTED
 from utils.logger import get_logger
 
@@ -30,26 +31,31 @@ def _get_admin_role(guild: discord.Guild) -> discord.Role | None:
 
 async def _is_admin(interaction: discord.Interaction) -> bool:
     assert interaction.guild is not None
+    member = interaction.user
+    if not isinstance(member, discord.Member):
+        return False
+    if member.guild_permissions.administrator:
+        return True
+
     admin_role = _get_admin_role(interaction.guild)
+    if admin_role is not None and admin_role in member.roles:
+        return True
+
     if admin_role is None:
         logger.error("Role '%s' not found in guild %s", ROLE_MINECRAFT_ADMIN, interaction.guild.id)
         await interaction.response.send_message(
             f"⚠️ The `{ROLE_MINECRAFT_ADMIN}` role could not be found. Please contact a server owner.",
             ephemeral=True,
         )
-        return False
-
-    member = interaction.user
-    if not isinstance(member, discord.Member) or admin_role not in member.roles:
+    else:
         await interaction.response.send_message(
             "❌ Only `MINECRAFT ADMIN` can use this button.", ephemeral=True
         )
-        return False
-    return True
+    return False
 
 
 async def _notify_admins_missing_role(bot: "SMPBot", guild: discord.Guild, role_name: str) -> None:
-    audit_channel = discord.utils.get(guild.text_channels, name=ZIO_AUDIT_CHANNEL_NAME)
+    audit_channel = await resolve_audit_channel(bot.db, guild)
     if audit_channel is None:
         return
     try:
@@ -188,7 +194,7 @@ class PaymentVerificationView(discord.ui.View):
 
         await self._update_embed_status(interaction, "✅ Approved", COLOR_APPROVED)
 
-        audit_channel = discord.utils.get(guild.text_channels, name=ZIO_AUDIT_CHANNEL_NAME)
+        audit_channel = await resolve_audit_channel(self.bot.db, guild)
         if audit_channel is not None:
             embed = audit_log_embed(
                 title="✅ Payment Approved",
@@ -222,7 +228,7 @@ class PaymentVerificationView(discord.ui.View):
 
         await self._update_embed_status(interaction, "❌ Rejected", COLOR_REJECTED)
 
-        audit_channel = discord.utils.get(guild.text_channels, name=ZIO_AUDIT_CHANNEL_NAME)
+        audit_channel = await resolve_audit_channel(self.bot.db, guild)
         if audit_channel is not None:
             embed = audit_log_embed(
                 title="❌ Payment Rejected",

@@ -24,7 +24,7 @@ from config import (
     PAYMENT_AMOUNT_INR,
     ZIO_AUDIT_CHANNEL_NAME,
 )
-from utils.channels import resolve_channel_id
+from utils.channels import resolve_channel_id, resolve_audit_channel
 from utils.embeds import audit_log_embed, COLOR_INFO
 from utils.logger import get_logger
 from views.application_form import WhitelistApplicationView
@@ -41,18 +41,23 @@ def is_admin():
     async def predicate(interaction: discord.Interaction) -> bool:
         if interaction.guild is None:
             return False
+        member = interaction.user
+        if not isinstance(member, discord.Member):
+            return False
+        if member.guild_permissions.administrator:
+            return True
         admin_role = discord.utils.get(interaction.guild.roles, name=ROLE_MINECRAFT_ADMIN)
+        if admin_role is not None and admin_role in member.roles:
+            return True
         if admin_role is None:
             await interaction.response.send_message(
                 f"⚠️ Role `{ROLE_MINECRAFT_ADMIN}` not found on this server.", ephemeral=True
             )
-            return False
-        if not isinstance(interaction.user, discord.Member) or admin_role not in interaction.user.roles:
+        else:
             await interaction.response.send_message(
                 "❌ You need the `MINECRAFT ADMIN` role to use this command.", ephemeral=True
             )
-            return False
-        return True
+        return False
 
     return app_commands.check(predicate)
 
@@ -75,7 +80,7 @@ class WhitelistCog(commands.Cog):
             logger.exception("Missing permission to assign '%s' to %s", ROLE_SMP_APPLICANT, member.id)
 
     async def _notify_missing_role(self, guild: discord.Guild, role_name: str) -> None:
-        audit_channel = discord.utils.get(guild.text_channels, name=ZIO_AUDIT_CHANNEL_NAME)
+        audit_channel = await resolve_audit_channel(self.bot.db, guild)
         if audit_channel:
             try:
                 await audit_channel.send(
@@ -83,7 +88,7 @@ class WhitelistCog(commands.Cog):
                     f"Please create it manually."
                 )
             except discord.HTTPException:
-                logger.exception("Failed to notify admins in #%s", ZIO_AUDIT_CHANNEL_NAME)
+                logger.exception("Failed to notify admins")
 
     @commands.command(name="mcform", help="Post the whitelist application form in this channel.")
     @commands.has_permissions(administrator=True)
@@ -200,7 +205,7 @@ class WhitelistCog(commands.Cog):
         except discord.Forbidden:
             logger.warning("Could not DM whitelisted user %s (DMs closed)", user.id)
 
-        audit_channel = discord.utils.get(guild.text_channels, name=ZIO_AUDIT_CHANNEL_NAME)
+        audit_channel = await resolve_audit_channel(self.bot.db, guild)
         if audit_channel:
             embed = audit_log_embed(
                 title="✅ Whitelist Accepted",

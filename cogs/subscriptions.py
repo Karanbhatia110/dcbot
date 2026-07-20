@@ -20,6 +20,7 @@ from apscheduler.triggers.cron import CronTrigger
 
 from cogs.whitelist import is_admin
 from config import ROLE_MINECRAFT, REMINDER_DAYS_BEFORE_EXPIRY, ZIO_AUDIT_CHANNEL_NAME, GUILD_ID
+from utils.channels import resolve_audit_channel
 from utils.embeds import audit_log_embed, user_status_embed, COLOR_INFO, COLOR_EXPIRED
 from utils.logger import get_logger
 
@@ -83,7 +84,7 @@ class SubscriptionsCog(commands.Cog):
         except discord.Forbidden:
             logger.warning("Could not DM user %s (DMs closed)", user.id)
 
-        audit_channel = discord.utils.get(guild.text_channels, name=ZIO_AUDIT_CHANNEL_NAME)
+        audit_channel = await resolve_audit_channel(self.bot.db, guild)
         if audit_channel:
             embed = audit_log_embed(
                 title="🔄 Subscription Renewed",
@@ -182,7 +183,7 @@ class SubscriptionsCog(commands.Cog):
             except discord.Forbidden:
                 logger.warning("Could not DM user %s (DMs closed)", discord_id)
 
-        audit_channel = discord.utils.get(guild.text_channels, name=ZIO_AUDIT_CHANNEL_NAME)
+        audit_channel = await resolve_audit_channel(self.bot.db, guild)
         if audit_channel:
             embed = audit_log_embed(
                 title="⏳ Subscription Expired",

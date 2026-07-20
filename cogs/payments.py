@@ -16,7 +16,7 @@ import discord
 from discord.ext import commands
 
 from config import PAYMENT_CONFIRMATION_CHANNEL_ID, ZIO_AUDIT_CHANNEL_NAME
-from utils.channels import resolve_channel_id
+from utils.channels import resolve_channel_id, resolve_audit_channel
 from utils.embeds import payment_verification_embed
 from utils.logger import get_logger
 from views.payment_buttons import PaymentVerificationView
@@ -88,9 +88,9 @@ class PaymentsCog(commands.Cog):
         except discord.Forbidden:
             logger.warning("Could not DM user %s (DMs closed)", message.author.id)
 
-        audit_channel = discord.utils.get(guild.text_channels, name=ZIO_AUDIT_CHANNEL_NAME)
+        audit_channel = await resolve_audit_channel(self.bot.db, guild)
         if audit_channel is None:
-            logger.error("#%s channel not found; cannot post verification request", ZIO_AUDIT_CHANNEL_NAME)
+            logger.error("Audit channel not found; cannot post verification request")
             return
 
         embed = payment_verification_embed(
